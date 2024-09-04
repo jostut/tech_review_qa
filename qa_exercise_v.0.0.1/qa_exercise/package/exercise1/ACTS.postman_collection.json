@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "b0c621c5-48ba-49fc-a4fb-5ef5ff4a3d4d",
+		"name": "ACTS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20506265"
+	},
+	"item": [
+		{
+			"name": "Sign in",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"john.doe\",\r\n    \"password\":\"abc123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/account/signin"
+			},
+			"response": []
+		},
+		{
+			"name": "Sign out",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"john.doe\",\r\n    \"password\":\"abc123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/account/signout"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Person Info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{baseUrl}}/person"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Astronaut Duties",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{baseUrl}}/astronautduty"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Astronaut Duty",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rank\": \"test\",\r\n    \"dutyTitle\": \"ranktest\",\r\n    \"dutyStartDate\": \"2030-11-20\",\r\n    \"dutyEndDate\": \"2033-11-20\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/astronautduty"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Astronaut Duty",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/astronautduty"
+			},
+			"response": []
+		}
+	]
+}

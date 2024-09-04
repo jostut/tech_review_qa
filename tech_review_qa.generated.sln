@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "qa_exercise_v.0.0.1", "qa_exercise_v.0.0.1", "{364A9C33-90D1-4AAC-B48D-494A66161D99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "qa_exercise", "qa_exercise", "{DEFCABF4-6B08-4C0C-A66C-75013EB169F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "package", "package", "{CD981398-FBCA-4BB1-8CFC-2E4A171D37EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "exercise1", "exercise1", "{09F45717-FF2E-4B9D-9CBD-113110B7FE58}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StargateAPI", "qa_exercise_v.0.0.1\qa_exercise\package\exercise1\api\StargateAPI.csproj", "{28256D80-367A-4FEB-8400-8E4B7B5238E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28256D80-367A-4FEB-8400-8E4B7B5238E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28256D80-367A-4FEB-8400-8E4B7B5238E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28256D80-367A-4FEB-8400-8E4B7B5238E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28256D80-367A-4FEB-8400-8E4B7B5238E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DEFCABF4-6B08-4C0C-A66C-75013EB169F8} = {364A9C33-90D1-4AAC-B48D-494A66161D99}
+		{CD981398-FBCA-4BB1-8CFC-2E4A171D37EF} = {DEFCABF4-6B08-4C0C-A66C-75013EB169F8}
+		{09F45717-FF2E-4B9D-9CBD-113110B7FE58} = {CD981398-FBCA-4BB1-8CFC-2E4A171D37EF}
+		{28256D80-367A-4FEB-8400-8E4B7B5238E1} = {09F45717-FF2E-4B9D-9CBD-113110B7FE58}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DF2EC865-FACA-4D19-BF97-61381B09080A}
+	EndGlobalSection
+EndGlobal
