@@ -1,31 +1,113 @@
 {
 	"info": {
-		"_postman_id": "b0c621c5-48ba-49fc-a4fb-5ef5ff4a3d4d",
+		"_postman_id": "b7ce9842-4f13-42f2-8c7a-7d4bb04005cb",
 		"name": "ACTS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "20506265"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6619839"
 	},
 	"item": [
 		{
 			"name": "Sign in",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Get Person Info\r",
+							"pm.execution.setNextRequest(\"b00d883d-3ce1-446a-8638-5e4c6c8a066d\");\r",
+							"\r",
+							"const skipTest = pm.response.code !== 200;\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"(skipTest ? pm.test.skip : pm.test)(\"ACTS_Session Cookie is set correctly\", function () {\r",
+							"    pm.expect(pm.cookies.has('ACTS_Session')).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"username\", \"john.doe\");\r",
+							"pm.collectionVariables.set(\"password\", \"abc123\");\r",
+							"\r",
+							"pm.test(\"ACTS_Session Cookie is NOT set before signing in\", function () {\r",
+							"    pm.expect(pm.cookies.has('ACTS_Session')).to.be.false;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"john.doe\",\r\n    \"password\":\"abc123\"\r\n}",
+					"raw": "{\r\n    \"username\":\"{{username}}\",\r\n    \"password\":\"{{password}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "{{baseUrl}}/account/signin"
+				"url": {
+					"raw": "{{baseUrl}}/account/signin",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"account",
+						"signin"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Sign out",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.execution.setNextRequest(null);\r",
+							"\r",
+							"const skipTest = pm.response.code !== 200;\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"(skipTest ? pm.test.skip : pm.test)(\"ACTS_Session Cookie is NOT set before signing in\", function () {\r",
+							"    pm.expect(pm.cookies.has('ACTS_Session')).to.be.false;\r",
+							"});\r",
+							"\r",
+							"//Just keeping this here if asked how I got the IDs\r",
+							"//console.log(pm.info.requestId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -34,70 +116,332 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"john.doe\",\r\n    \"password\":\"abc123\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "{{baseUrl}}/account/signout"
+				"url": {
+					"raw": "{{baseUrl}}/account/signout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"account",
+						"signout"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Get Person Info",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Create Astronaut Duty\r",
+							"pm.execution.setNextRequest(\"af8ca059-2d05-4621-9504-7dafff7e95d5\");\r",
+							"\r",
+							"const skipTest = pm.response.code !== 200;\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"(skipTest ? pm.test.skip : pm.test)(\"Verify Signed in user data is returned\", function () {\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.expect(pm.response.json().person.name).to.equal('John Doe');\r",
+							"    pm.expect(pm.response.json().person.id).to.equal(0);\r",
+							"\r",
+							"});\r",
+							"\r",
+							"(skipTest ? pm.test.skip : pm.test)(\"Verify the response contains required fields\", function () {\r",
+							"    const person = pm.response.json().person;\r",
+							"        pm.expect(person).to.have.property('id');\r",
+							"        pm.expect(person).to.have.property('name');\r",
+							"        pm.expect(person).to.have.property('account');\r",
+							"        pm.expect(person).to.have.property('astronautDuties');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{baseUrl}}/person"
+				"url": {
+					"raw": "{{baseUrl}}/person",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"person"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Get Astronaut Duties",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Delete Astronaut Duty\r",
+							"pm.execution.setNextRequest(\"a340eecf-2bbc-43b6-aec3-b60d794bcbd7\");\r",
+							"\r",
+							"const skipTest = pm.response.code !== 200;\r",
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"(skipTest ? pm.test.skip : pm.test)(\"Verify the response contains required fields\", function () {\r",
+							"    pm.response.json().astronautDuties.forEach(function(duty) {\r",
+							"        pm.expect(duty).to.have.property('id');\r",
+							"        pm.expect(duty).to.have.property('personId');\r",
+							"        pm.expect(duty).to.have.property('rank');\r",
+							"        pm.expect(duty).to.have.property('dutyTitle');\r",
+							"        pm.expect(duty).to.have.property('dutyStartDate');\r",
+							"        pm.expect(duty).to.have.property('dutyEndDate');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"(skipTest ? pm.test.skip : pm.test)(\"Start dates are in descending order\", function () {\r",
+							"    const astronautDuties = pm.response.json().astronautDuties;\r",
+							"    let previousDate = new Date(astronautDuties[0].dutyStartDate);\r",
+							"    \r",
+							"    astronautDuties.slice(1).forEach(function(duty) {\r",
+							"        const currentDate = new Date(duty.dutyStartDate);\r",
+							"        pm.expect(currentDate).to.be.at.most(previousDate);\r",
+							"        previousDate = currentDate;\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"(skipTest ? pm.test.skip : pm.test)(\"Set dutyId collection variable\", function () {\r",
+							"    pm.response.json().astronautDuties.forEach(function(duty) {\r",
+							"        if(![1,2,3].includes(duty.id)){\r",
+							"            pm.collectionVariables.set(\"dutyId\", duty.id);\r",
+							"        }\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{baseUrl}}/astronautduty"
+				"url": {
+					"raw": "{{baseUrl}}/astronautduty",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"astronautduty"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Create Astronaut Duty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const skipTest = pm.response.code !== 200;\r",
+							"const endEarly = pm.variables.get(\"endRun\") == true;\r",
+							"\r",
+							"function isRunningFromCollection() {\r",
+							"    return postman.__execution.cursor.length > 1;\r",
+							"}\r",
+							"\r",
+							"if(isRunningFromCollection() && endEarly){\r",
+							"    pm.test(\"Status code is 400\", function(){\r",
+							"        pm.response.to.have.status(400);\r",
+							"        pm.execution.setNextRequest(null);\r",
+							"    });\r",
+							"\r",
+							"    pm.test(\"Verify Start and End dates Error when overlaping with existing dates\", function() {\r",
+							"        pm.expect(pm.response.json().message).to.eq('Duty overlaps with an existing duty');\r",
+							"    });\r",
+							"} \r",
+							"\r",
+							"(skipTest ? pm.test.skip : pm.test)(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    //Get Astronaut Dutie\r",
+							"    pm.execution.setNextRequest(\"6037cdff-25c3-4a1d-9db5-56ca0ac23372\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function isRunningFromCollection() {\r",
+							"    return postman.__execution.cursor.length > 1;\r",
+							"}\r",
+							"\r",
+							"if(isRunningFromCollection()){\r",
+							"    let currentStartDate = pm.variables.get(\"fileStartDate\");\r",
+							"    let currentEndDate = pm.variables.get(\"fileEndDate\");\r",
+							"\r",
+							"    pm.collectionVariables.set(\"startDate\", currentStartDate);\r",
+							"    pm.collectionVariables.set(\"endDate\", currentEndDate);\r",
+							" } else {\r",
+							"    pm.collectionVariables.set(\"startDate\", \"2030-11-20\");\r",
+							"    pm.collectionVariables.set(\"endDate\", \"2033-11-20\");\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"rank\": \"test\",\r\n    \"dutyTitle\": \"ranktest\",\r\n    \"dutyStartDate\": \"2030-11-20\",\r\n    \"dutyEndDate\": \"2033-11-20\"\r\n}",
+					"raw": "{\r\n    \"rank\": \"test\",\r\n    \"dutyTitle\": \"ranktest\",\r\n    \"dutyStartDate\": \"{{startDate}}\",\r\n    \"dutyEndDate\": \"{{endDate}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "{{baseUrl}}/astronautduty"
+				"url": {
+					"raw": "{{baseUrl}}/astronautduty",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"astronautduty"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Delete Astronaut Duty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Sign Out\r",
+							"pm.execution.setNextRequest(\"61179d74-c7e0-4072-8900-a543d2bea366\");\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": 5\r\n}",
+					"raw": "{\r\n    \"id\": {{dutyId}}\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "{{baseUrl}}/astronautduty"
+				"url": {
+					"raw": "{{baseUrl}}/astronautduty",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"astronautduty"
+					]
+				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:7204"
+		},
+		{
+			"key": "username",
+			"value": "john.doe",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "abc123",
+			"type": "string"
+		},
+		{
+			"key": "dutyId",
+			"value": "0",
+			"type": "string"
+		},
+		{
+			"key": "startDate",
+			"value": "2030-11-20",
+			"type": "string"
+		},
+		{
+			"key": "endDate",
+			"value": "2033-11-20",
+			"type": "string"
 		}
 	]
 }
