@@ -22,7 +22,7 @@ namespace StargateAPI.Business.Queries
         {
             var result = new GetCurrentPersonByIdResult();
 
-            var query = $"SELECT Id as PersonId, Name FROM [Person] WHERE '{request.Id}' = Id";
+            var query = $"SELECT Id, Name FROM [Person] WHERE '{request.Id}' = Id";
 
             var person = await _context.Connection.QueryAsync<Person>(query);
 
