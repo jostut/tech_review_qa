@@ -165,7 +165,7 @@
 							"(skipTest ? pm.test.skip : pm.test)(\"Verify Signed in user data is returned\", function () {\r",
 							"    pm.response.to.be.withBody;\r",
 							"    pm.expect(pm.response.json().person.name).to.equal('John Doe');\r",
-							"    pm.expect(pm.response.json().person.id).to.equal(0);\r",
+							"    pm.expect(pm.response.json().person.id).to.equal(1);\r",
 							"\r",
 							"});\r",
 							"\r",
