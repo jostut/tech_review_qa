@@ -1,6 +1,3 @@
-/// <reference types="cypress" />
-/// <reference types="testing-library/dom" />
-
 describe('Home Page', () => {
   beforeEach(()=>{
     cy.visit('home.html')
@@ -85,6 +82,36 @@ describe('Home Page', () => {
         cy.findByRole('button', {name: /Save changes/i}).click()
         cy.findByText('Duty overlaps with an existing duty').should('be.visible')
       })
+    
+      describe('Extra Testing', ()=>{
+        it.skip('Intercept an api call and replace the body data', ()=>{
+          cy.intercept('POST', '/astronautduty',{
+            statusCode: 400,
+            body: {
+              "success": false,
+              "message": "You have no POWER here!",
+              "responseCode": 400
+            }
+          })
+          cy.findByLabelText('Duty Title').type("blah")
+          cy.findByLabelText('Duty Rank').type("blah")
+          cy.findByLabelText('Start Date').type('2050-01-01')
+          cy.findByLabelText('End Date').type('2050-02-01')
+          cy.findByRole('button', {name: /Save changes/i}).click()
+          cy.findByText('You have no POWER here!').should('be.visible')
+        })
+        Cypress._.times(2, ()=>{
+          it.skip('Manual flaky check', ()=>{
+            cy.get('.btn-close').should('be.visible').click()
+            cy.get('#duty-history-list-group li').should('have.length', 3)
+            cy.findByText('1LT')
+          })
+        })
+        it.skip('Accessibility checks', ()=>{
+          //https://go.cypress.io/accessibility-waitlist?ref=cypress-io.ghost.io
+          cy.injectAxe()
+          cy.checkA11y()
+        })
+      })
     })
-
 })
